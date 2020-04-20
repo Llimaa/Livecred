@@ -1,15 +1,16 @@
-﻿using Flunt.Validations;
+﻿using Flunt.Notifications;
+using Flunt.Validations;
 using Livecred.Domain.Shared.Commands;
 
 namespace Livecred.Domain.Commands.Inputs.Client
 {
-    public class ClientInsert : IcommandInput
+    public class ClientInsert : Notifiable, IcommandInput
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string NuberDocument { get; set; }
         public string Telephone { get; set; }
-        public string Endereco { get; set; }
+        public string Address { get; set; }
 
         public void Validate()
         {

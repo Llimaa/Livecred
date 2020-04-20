@@ -1,9 +1,10 @@
-﻿using Flunt.Validations;
+﻿using Flunt.Notifications;
+using Flunt.Validations;
 using Livecred.Domain.Enuns;
 using Livecred.Domain.Shared.Commands;
 namespace Livecred.Domain.Commands.Inputs.Loan
 {
-    public class LoanUpdate : IcommandInput
+    public class LoanUpdate : Notifiable, IcommandInput
     {
         public decimal Valor { get; set; }
         public double Juro { get; set; }

@@ -20,7 +20,6 @@ namespace Livecred.Domain.Models
         public double JuroAtraso { get; private set; }
         public EStatusParcela Status { get; private set; }
 
-
         public void UpdateValor(decimal valor)
         {
             Valor = valor;

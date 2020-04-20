@@ -1,8 +1,9 @@
-﻿using Flunt.Validations;
+﻿using Flunt.Notifications;
+using Flunt.Validations;
 using Livecred.Domain.Shared.Commands;
 namespace Livecred.Domain.Commands.Inputs.Parcela
 {
-    public class ParcelaInsert : IcommandInput
+    public class ParcelaInsert : Notifiable, IcommandInput
     {
         public decimal Valor { get; set; }
         public void Validate()
