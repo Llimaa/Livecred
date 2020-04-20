@@ -2,16 +2,18 @@
 using Livecred.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace Livecred.Domain.Repositories
 {
     public interface IRepositoryParcela
     {
-        void Create(Parcela parcela);
-        void Update(Parcela parcela);
-        void Delete(Guid id);
-        Parcela GetById(Guid id);
-        Parcela GetByStatus(EStatusParcela status);
-        Parcela GetByPeriodo(DateTime periodo);
-        IEnumerable<Parcela> GetAll();
+        Task Create(Parcela parcela);
+        Task Update(Parcela parcela);
+        Task Delete(Guid id);
+        Task<Parcela> GetById(Guid id);
+        Task<Parcela> GetByStatus(EStatusParcela status);
+        Task<Parcela> GetByPeriodo(DateTime periodo);
+        Task<IEnumerable<Parcela>> GetAll();
     }
 }

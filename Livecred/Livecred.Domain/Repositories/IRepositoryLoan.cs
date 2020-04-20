@@ -2,17 +2,17 @@
 using Livecred.Domain.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Livecred.Domain.Repositories
 {
     public interface IRepositoryLoan
     {
-        void Create(Loan loan);
-        void Update(Loan loan);
-        void Delete(Guid guid);
-        Loan GetById(Guid id);
-        IEnumerable<Loan> GetAll();
-        IEnumerable<Loan> GetAllOrderByStatus(EStatusEmprestimo status);
+        Task Create(Loan loan);
+        Task Update(Loan loan);
+        Task Delete(Guid guid);
+        Task<Loan> GetById(Guid id);
+        Task<IEnumerable<Loan>> GetAll();
+        Task<IEnumerable<Loan>> GetAllOrderByStatus(EStatusEmprestimo status);
     }
 }
