@@ -9,7 +9,9 @@ namespace Livecred.Domain.Repositories
     public interface IRepositoryParcela
     {
         Task Create(Parcela parcela);
-        Task Update(Parcela parcela);
+        Task UpdateValor(Guid id, decimal valor);
+        Task UpdateJuro(Guid id, double valor);
+        Task UpdateDataVencimento(Guid id, DateTime dataVencimento);
         Task Delete(Guid id);
         Task<Parcela> GetById(Guid id);
         Task<Parcela> GetByStatus(EStatusParcela status);
