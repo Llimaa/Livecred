@@ -21,7 +21,7 @@ namespace Livecred.Domain.Models
         public string Telephone { get; private set; }
         public string Address { get; private set; }
 
-        public IList<Loan> Loans { get; private set; } //Emprestimos
+        public List<Loan> Loans { get; private set; } //Emprestimos
 
         public void Update(string firstName, string lastName, string document, string telephone, string address)
         {
@@ -33,9 +33,25 @@ namespace Livecred.Domain.Models
             Address = address;
         }
 
+        public void SetName(string name)
+        {
+            Name = new Name(name, name);
+        }
+
+        public void SetDocument(Document document)
+        {
+            CPF = document;
+        }
+
+
         public void AddLoan(Loan loan)
         {
             this.Loans.Add(loan);
+        }
+
+        public void AddRageLoan(List<Loan> loans)
+        {
+            this.Loans.AddRange(loans);
         }
 
         public void UpdateLoan(Loan loan)
