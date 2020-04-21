@@ -6,14 +6,16 @@ namespace Livecred.Domain.Models
 {
     public class Parcela : EntityBase
     {
-        public Parcela(decimal valor)
+        public Parcela(decimal valor, Guid idLoan)
         {
+            IdLoan = idLoan;
             Valor = valor;
             JuroAtraso = 0;
             Status = EStatusParcela.EmDias;
             DataVencimento = DateTime.Now.AddDays(30);
         }
 
+        public Guid IdLoan { get; private set; }
         public decimal Valor { get; private set; }
         public decimal ValorComJuro { get; private set; }
         public DateTime DataVencimento { get; private set; }
@@ -64,11 +66,6 @@ namespace Livecred.Domain.Models
 
             UpdateValorComJuro(valor + valorJuro);
             return valor + valorJuro;
-        }
-
-        private void UpdateStatus(EStatusParcela status)
-        {
-            Status = status;
         }
     }
 }
