@@ -5,7 +5,7 @@ using System;
 
 namespace Livecred.Domain.Commands.Inputs.Client
 {
-    public class ClientUpdate : Notifiable, IcommandInput
+    public class ClientUpdate : Notifiable, Icommand
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

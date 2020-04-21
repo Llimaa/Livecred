@@ -3,7 +3,7 @@ using Livecred.Domain.Shared.Commands;
 
 namespace Livecred.Domain.Commands.Inputs
 {
-    public class ClientInsert : IcommandInput
+    public class ClientInsert : Icommand
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

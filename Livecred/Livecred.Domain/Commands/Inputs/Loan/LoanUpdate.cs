@@ -6,7 +6,7 @@ using System;
 
 namespace Livecred.Domain.Commands.Inputs.Loan
 {
-    public class LoanUpdate : Notifiable, IcommandInput
+    public class LoanUpdate : Notifiable, Icommand
     {
         public Guid Id { get; set; }
         public decimal Valor { get; set; }

@@ -3,7 +3,7 @@ using Flunt.Validations;
 using Livecred.Domain.Shared.Commands;
 namespace Livecred.Domain.Commands.Inputs.Loan
 {
-    public class LoanInsert : Notifiable, IcommandInput
+    public class LoanInsert : Notifiable, Icommand
     {
         public decimal Valor { get; set; }
         public double Juro { get; set; }

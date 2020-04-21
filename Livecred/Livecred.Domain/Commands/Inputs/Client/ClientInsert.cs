@@ -4,7 +4,7 @@ using Livecred.Domain.Shared.Commands;
 
 namespace Livecred.Domain.Commands.Inputs.Client
 {
-    public class ClientInsert : Notifiable, IcommandInput
+    public class ClientInsert : Notifiable, Icommand
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

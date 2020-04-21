@@ -2,7 +2,7 @@
 using Livecred.Domain.Shared.Commands;
 namespace Livecred.Domain.Commands.Inputs
 {
-    public class ParcelaInsert : IcommandInput
+    public class ParcelaInsert : Icommand
     {
         public decimal Valor { get; set; }
         public void Validate()

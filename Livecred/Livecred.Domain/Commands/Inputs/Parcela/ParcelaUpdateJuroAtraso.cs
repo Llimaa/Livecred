@@ -5,7 +5,7 @@ using System;
 
 namespace Livecred.Domain.Commands.Inputs.Parcela
 {
-    public class ParcelaUpdateJuroAtraso : Notifiable, IcommandInput
+    public class ParcelaUpdateJuroAtraso : Notifiable, Icommand
     {
         public Guid Id { get; set; }
         public double Juro { get; set; }

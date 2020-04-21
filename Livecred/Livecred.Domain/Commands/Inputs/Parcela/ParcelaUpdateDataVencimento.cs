@@ -5,7 +5,7 @@ using System;
 
 namespace Livecred.Domain.Commands.Inputs.Parcela
 {
-    public class ParcelaUpdateDataVencimento : Notifiable, IcommandInput
+    public class ParcelaUpdateDataVencimento : Notifiable, Icommand
     {
         public Guid Id { get; set; }
         public DateTime DataVencimento { get; set; }

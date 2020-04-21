@@ -5,7 +5,7 @@ using Livecred.Domain.Shared.Commands;
 using System;
 namespace Livecred.Domain.Commands.Inputs.Parcela
 {
-    public class ParcelaInput : Notifiable, IcommandInput
+    public class ParcelaInput : Notifiable, Icommand
     {
         public decimal Valor { get; set; }
         public decimal ValorComJuro { get; set; }

@@ -6,7 +6,7 @@ using Livecred.Domain.Enuns;
 
 namespace Livecred.Domain.Commands.Inputs.Parcela
 {
-    public class ParcelaUpdateStatus : Notifiable, IcommandInput
+    public class ParcelaUpdateStatus : Notifiable, Icommand
     {
         public Guid Id { get; set; }
         public EStatusParcela Status { get; set; }
