@@ -7,12 +7,12 @@ namespace Livecred.Domain.ValueObjects
     {
         public Document(string cpf = null)
         {
-            CPF = cpf;
+            Number = cpf;
             new Contract().
                 IsTrue(ValidarCPF(cpf), "CPF", "CPF Invalido");
         }
 
-        public string CPF { get; set; }
+        public string Number { get; set; }
 
         private bool ValidarCPF(string cpf)
         {
