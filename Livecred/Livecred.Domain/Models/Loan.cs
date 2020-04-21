@@ -30,18 +30,18 @@ namespace Livecred.Domain.Models
             DataUpdate = DateTime.Now;
         }
 
-        public void Adicionar(Parcela parcela)
+        public void AdicionarParcela(Parcela parcela)
         {
             this.Parcelas.Add(parcela);
         }
 
-        public void Atualizar(Parcela parcela)
+        public void AtualizarParcela(Parcela parcela)
         {
-            this.Remover(parcela.Id);
-            this.Adicionar(parcela);
+            this.RemoverParcela(parcela.Id);
+            this.AdicionarParcela(parcela);
         }
 
-        public void Remover(Guid id)
+        public void RemoverParcela(Guid id)
         {
             Parcelas.RemoveAt(GetIndex(id));
         }

@@ -2,10 +2,13 @@
 using Flunt.Validations;
 using Livecred.Domain.Enuns;
 using Livecred.Domain.Shared.Commands;
+using System;
+
 namespace Livecred.Domain.Commands.Inputs.Loan
 {
     public class LoanUpdate : Notifiable, IcommandInput
     {
+        public Guid Id { get; set; }
         public decimal Valor { get; set; }
         public double Juro { get; set; }
         public EStatusEmprestimo Status { get; set; }

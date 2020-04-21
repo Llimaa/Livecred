@@ -1,10 +1,11 @@
-﻿using Flunt.Validations;
+﻿using Flunt.Notifications;
+using Flunt.Validations;
 using Livecred.Domain.Enuns;
 using Livecred.Domain.Shared.Commands;
 using System;
 namespace Livecred.Domain.Commands.Inputs.Parcela
 {
-    public class ParcelaInput : IcommandInput
+    public class ParcelaInput : Notifiable, IcommandInput
     {
         public decimal Valor { get; set; }
         public decimal ValorComJuro { get; set; }
