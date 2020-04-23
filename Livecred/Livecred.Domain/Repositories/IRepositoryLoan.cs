@@ -13,6 +13,7 @@ namespace Livecred.Domain.Repositories
         Task Delete(Guid guid);
         Task<Loan> GetById(Guid id);
         Task<IEnumerable<Loan>> GetAll();
+        Task<IEnumerable<Loan>> GetAllbyIdClient(Guid IdClient);
         Task<IEnumerable<Loan>> GetAllOrderByStatus(EStatusEmprestimo status);
     }
 }

@@ -29,16 +29,14 @@ namespace Livecred.Infra.Repositories
                             "           ,[Valor]		  " +
                             "           ,[Juro]			  " +
                             "           ,[Status]		  " +
-                            "           ,[DataCadastro]	  " +
-                            "           ,[DataUpdate])	  " +
+                            "           ,[DataCadastro])  " +
                             "     VALUES				  " +
                             "           (@Id			  " +
                             "           ,@IdClient		  " +
                             "           ,@Valor			  " +
                             "           ,@Juro			  " +
                             "           ,@Status		  " +
-                            "           ,@DataCadastro	  " +
-                            "           ,@DataUpdate)	  ";
+                            "           ,@DataCadastro)	  ";
 
                 await db.ExecuteAsync(query, new
                 {
@@ -46,9 +44,8 @@ namespace Livecred.Infra.Repositories
                     IdClient = loan.IdClient,
                     Valor = loan.Valor,
                     Juro = loan.Juro,
-                    Status = loan.Status,
-                    DataCadastro = loan.DataCadastro,
-                    DataUpdate = loan.DataUpdate
+                    Status = 1,
+                    DataCadastro = loan.DataCadastro
                 });
             }
         }
@@ -147,6 +144,24 @@ namespace Livecred.Infra.Repositories
                 var parcelas = await db.QueryAsync<Parcela>(query, new { IdLoan = id });
                 loan.AddRangeParcela(parcelas.ToList());
                 return loan;
+            }
+        }
+
+        public async Task<IEnumerable<Loan>> GetAllbyIdClient(Guid IdClient)
+        {
+            using (var db = await _dB.GetConAsync())
+            {
+                var query = "	SELECT [Id]				" +
+                            "	      ,[IdClient]		" +
+                            "	      ,[Valor]			" +
+                            "	      ,[Juro]			" +
+                            "	      ,[Status]			" +
+                            "	      ,[DataCadastro]	" +
+                            "	      ,[DataUpdate]		" +
+                            "	  FROM [dbo].[Loan]		" +
+                            "WHERE [IdClient] = @IdClient	";
+
+                return await db.QueryAsync<Loan>(query, new { IdClient = IdClient });
             }
         }
     }

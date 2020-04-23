@@ -38,9 +38,9 @@ namespace Livecred.Domain.Models
             Name = new Name(name, name);
         }
 
-        public void SetDocument(Document document)
+        public void SetDocument(string document)
         {
-            CPF = document;
+            CPF = new Document(document);
         }
 
 

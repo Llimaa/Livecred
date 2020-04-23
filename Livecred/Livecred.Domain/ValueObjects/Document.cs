@@ -5,7 +5,7 @@ namespace Livecred.Domain.ValueObjects
 {
     public class Document : Notifiable
     {
-        public Document(string cpf = null)
+        public Document(string cpf)
         {
             Number = cpf;
             new Contract().

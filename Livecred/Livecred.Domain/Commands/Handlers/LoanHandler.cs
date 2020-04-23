@@ -22,7 +22,7 @@ namespace Livecred.Domain.Commands.Handlers
             if (command.Invalid)
                 return new GenericCommandResult(false, "Dados incorretos ", command.Notifications);
 
-            var loan = new Loan(command.Valor, command.Juro);
+            var loan = new Loan(command.Valor, command.Juro, command.IdClient);
             await _repositoryLoan.Create(loan);
 
             return new GenericCommandResult(true, "Emprestimo realizado com sucesso", loan);

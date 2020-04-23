@@ -7,6 +7,7 @@ namespace Livecred.Domain.Commands.Inputs.Parcela
 {
     public class ParcelaInput : Notifiable, Icommand
     {
+        public Guid IdLoan { get; set; }
         public decimal Valor { get; set; }
         public decimal ValorComJuro { get; set; }
         public DateTime DataVencimento { get; set; }
@@ -18,7 +19,8 @@ namespace Livecred.Domain.Commands.Inputs.Parcela
             new Contract()
                 .IsNotNullOrEmpty(Valor.ToString(), "Valor", "O campo valor não pode esta em branco.")
                 .IsNotNullOrEmpty(DataVencimento.ToString(), "DataVencimento", "O campo Data de vencimento não pode esta em branco.")
-                .IsNotNullOrEmpty("EStatusParcela", "EStatusParcela", "O campo Status não pode esta em branco.");
+                .IsNotNullOrEmpty("EStatusParcela", "EStatusParcela", "O campo Status não pode esta em branco.")
+                .IsNotNullOrEmpty(IdLoan.ToString(), "IdLoan", "O campo identificador do Emprestimo não pode ficar em branco");
         }
     }
 }

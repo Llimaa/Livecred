@@ -17,5 +17,6 @@ namespace Livecred.Domain.Repositories
         Task<Parcela> GetByStatus(EStatusParcela status);
         Task<Parcela> GetByPeriodo(DateTime periodo);
         Task<IEnumerable<Parcela>> GetAll();
+        Task<IEnumerable<Parcela>> GetAllByIdLoan(Guid IdLoan);
     }
 }

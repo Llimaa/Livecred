@@ -26,7 +26,7 @@ namespace Livecred.Domain.Commands.Handlers
             if (command.Invalid)
                 return new GenericCommandResult(false, "Dados inválidos", command.Notifications);
 
-            var parcela = new Parcela(command.Valor);
+            var parcela = new Parcela(command.Valor, command.IdLoan);
             await _repositoryParcela.Create(parcela);
 
             return new GenericCommandResult(true, "parcela cadastrada com sucesso", parcela);

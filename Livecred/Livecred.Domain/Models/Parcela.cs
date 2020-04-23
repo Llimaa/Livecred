@@ -14,6 +14,10 @@ namespace Livecred.Domain.Models
             Status = EStatusParcela.EmDias;
             DataVencimento = DateTime.Now.AddDays(30);
         }
+        public Parcela()
+        {
+
+        }
 
         public Guid IdLoan { get; private set; }
         public decimal Valor { get; private set; }

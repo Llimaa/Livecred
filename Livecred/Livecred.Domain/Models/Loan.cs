@@ -15,6 +15,10 @@ namespace Livecred.Domain.Models
             DataCadastro = DateTime.Now;
             IdClient = idClient;
         }
+        public Loan()
+        {
+
+        }
 
         public decimal Valor { get; private set; }
         public Guid IdClient { get; private set; }

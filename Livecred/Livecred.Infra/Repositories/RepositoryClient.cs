@@ -82,9 +82,9 @@ namespace Livecred.Infra.Repositories
         public async Task<IEnumerable<Client>> GetAll()
         {
             using (var db = await _dB.GetConAsync())
-            {
-                var query = "SELECT [Id],[Name],[CPF],[Telephone],[Address] FROM [dbo].[Client];";
-                return (await db.QueryAsync<Client, string, Document, Client>(query, map: (client, name, document) =>
+            {                                         
+                var query = "SELECT [Id], [Telephone], [Address], [Name], [CPF] FROM [dbo].[Client];";
+                return (await db.QueryAsync<Client, string, string, Client>(query, map: (client, name, document) =>
                 {
                     client.SetName(name);
                     client.SetDocument(document);
@@ -98,7 +98,7 @@ namespace Livecred.Infra.Repositories
             using (var db = await _dB.GetConAsync())
             {
                 var query = "SELECT [Id],[Name],[CPF],[Telephone],[Address] FROM [dbo].[Client] WHERE Id = @Id";
-                var _client = await db.QueryAsync<Client, string, Document, Client>(query, param: new { Id = id }, map: (client, name, document) =>
+                var _client = await db.QueryAsync<Client, string, string, Client>(query, param: new { Id = id }, map: (client, name, document) =>
                 {
                     client.SetName(name);
                     client.SetDocument(document);

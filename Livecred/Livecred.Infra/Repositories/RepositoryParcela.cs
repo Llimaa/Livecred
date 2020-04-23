@@ -168,5 +168,21 @@ namespace Livecred.Infra.Repositories
                 return await db.QueryFirstOrDefaultAsync<Parcela>(query, new { Status = status });
             }
         }
+
+        public async Task<IEnumerable<Parcela>> GetAllByIdLoan(Guid IdLoan)
+        {
+            using (var db = await _dB.GetConAsync())
+            {
+                var query = "	SELECT [Id]				" +
+                            "	      ,[IdLoan]			" +
+                            "	      ,[Valor]			" +
+                            "	      ,[JuroAtraso]		" +
+                            "	      ,[Status]			" +
+                            "	      ,[DataVencimento]	" +
+                            "	  FROM [dbo].[Parcela]	" +
+                            "	 WHERE [IdLoan] = @IdLoan ";
+                return await db.QueryAsync<Parcela>(query, new { IdLoan = IdLoan });
+            }
+        }
     }
 }
