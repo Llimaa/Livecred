@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Livecred.Configurations;
 using Livecred.Domain.Commands.Handlers;
 using Livecred.Domain.Commands.Inputs.Loan;
 using Livecred.Domain.Repositories;
@@ -28,8 +29,13 @@ namespace Livecred.Controllers
         {
             IdClient = IdCLient;
             var loan = await _repositoryLoan.GetAllbyIdClient(IdCLient);
+
+            if (HttpExtensionsValidate.IsAjaxRequest(Request))
+                return PartialView("Index", loan);
+
             return View(loan);
         }
+
 
         // GET: Loan/Details/5
         public ActionResult Details(int id)
