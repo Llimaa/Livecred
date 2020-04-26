@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Livecred.Domain.Models.Parcela>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Parcelas</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><p style="color:blue" onclick="voltar()">Home</p></li>
+                    <li class="breadcrumb-item active">parcelas</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content-">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body table-responsive p-0" style="height: 550px;">
+                        <table class="table table-head-fixed text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Valor)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ValorComJuro)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.DataVencimento)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.JuroAtraso)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Status)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Valor)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ValorComJuro)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DataVencimento)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.JuroAtraso)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Status)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function voltar() {
+        $.ajax({
+            type: "GET",
+            url: "/Home/Index",
+            data: {},
+            success: function (dados) {
+                $("#conteudo").html(dados);
+            }
+        });
+    }
+</script>
