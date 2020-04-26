@@ -5,6 +5,7 @@ using Livecred.Domain.Repositories;
 using Livecred.Infra.Context.Core;
 using System;
 using System.Collections.Generic;
+using System.Net.Security;
 using System.Threading.Tasks;
 
 namespace Livecred.Infra.Repositories
@@ -182,6 +183,24 @@ namespace Livecred.Infra.Repositories
                             "	  FROM [dbo].[Parcela]	" +
                             "	 WHERE [IdLoan] = @IdLoan ";
                 return await db.QueryAsync<Parcela>(query, new { IdLoan = IdLoan });
+            }
+        }
+
+        public async Task<decimal> GetTotalToday(DateTime data)
+        {
+            using (var db = await _dB.GetConAsync())
+            {
+                var query = "SELECT SUM(Valor) FROM [dbo].[Parcela] WHERE DataVencimento = @Data;";
+                return await db.QueryFirstOrDefaultAsync<decimal>(query, new { Data = data });
+            }
+        }
+
+        public async Task<decimal> GetTotalRecebido(EStatusParcela status)
+        {
+            using (var db = await _dB.GetConAsync())
+            {
+                var query = "SELECT SUM(Valor) FROM [dbo].[Parcela] WHERE [Status] = 1";
+                return await db.QueryFirstOrDefaultAsync<decimal>(query, new { Status = status });
             }
         }
     }

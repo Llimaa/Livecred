@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Livecred.Configurations;
 using Livecred.Domain.Commands.Handlers;
 using Livecred.Domain.Commands.Inputs.Parcela;
 using Livecred.Domain.Repositories;
@@ -25,10 +26,13 @@ namespace Livecred.Controllers
         }
 
         // GET: Parcela
-        public async Task<ActionResult> Index(Guid IdLoan)
+        public async Task<ActionResult> Index(Guid idLoan)
         {
-            _idLoan = IdLoan;
-            var res = await _repositoryParcela.GetAllByIdLoan(IdLoan);
+            _idLoan = idLoan;
+            var res = await _repositoryParcela.GetAllByIdLoan(idLoan);
+            if (HttpExtensionsValidate.IsAjaxRequest(Request))
+                return PartialView("ListaPorLoan", res);
+
             return View(res);
         }
 
@@ -55,7 +59,7 @@ namespace Livecred.Controllers
                 await _parcelaHandler.Handler(parcelaInput);
                 return RedirectToAction(nameof(Index), new { IdLoan = _idLoan });
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return View();
             }
