@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Livecred.Domain.Enuns;
 using Livecred.Domain.Models;
+using Livecred.Domain.Queries;
 using Livecred.Domain.Repositories;
 using Livecred.Infra.Context.Core;
 using System;
@@ -110,8 +111,8 @@ namespace Livecred.Infra.Repositories
                             "	      ,[Status]			" +
                             "	      ,[DataCadastro]	" +
                             "	      ,[DataUpdate]		" +
-                            "  WHERE Status = @Status	" +
-                            "	  FROM [dbo].[Loan]		";
+                            "	  FROM [dbo].[Loan]		" +
+                              "  WHERE Status = @Status	";
                 return await db.QueryAsync<Loan>(query, new { Status = status });
             }
         }
@@ -162,6 +163,75 @@ namespace Livecred.Infra.Repositories
                             "WHERE [IdClient] = @IdClient	";
 
                 return await db.QueryAsync<Loan>(query, new { IdClient = IdClient });
+            }
+        }
+
+        public async Task<int> GetTotal()
+        {
+            using (var db = await _dB.GetConAsync())
+            {
+                var query = "SELECT COUNT(Id) FROM [dbo].[Loan]";
+
+                return await db.QueryFirstOrDefaultAsync<int>(query);
+            }
+        }
+
+        public async Task<int> GetTotalOrderByStatus(EStatusEmprestimo status)
+        {
+            using (var db = await _dB.GetConAsync())
+            {
+                var query = "SELECT COUNT(Id) FROM [dbo].[Loan]  WHERE Status =@Status";
+
+                return await db.QueryFirstOrDefaultAsync<int>(query, new { Status = status });
+            }
+        }
+
+        public async Task<decimal> GetMoneyTotal()
+        {
+            using (var db = await _dB.GetConAsync())
+            {
+                var query = "SELECT SUM(Valor)+SUM(Juro) FROM [dbo].[Loan]";
+
+                return await db.QueryFirstOrDefaultAsync<decimal>(query);
+            }
+        }
+
+        public async Task<decimal> GetTotalByThirtyToday(DateTime dataInicio, DateTime dataFim)
+        {
+            using (var db = await _dB.GetConAsync())
+            {
+                var query = "SELECT SUM(Valor) FROM [dbo].[Loan] where DataCadastro between @DataInicio and @DataFim;";
+
+                return await db.QueryFirstOrDefaultAsync<decimal>(query, new { DataInicio = dataInicio, DataFim = dataFim });
+            }
+        }
+
+        public async Task<IEnumerable<LoanQuery>> GetLoanQuery(EStatusEmprestimo status)
+        {
+            using (var db = await _dB.GetConAsync())
+            {
+                var query = "	SELECT L.[Id]				" +
+                           "		,C.[Name] AS NameClient	" +
+                           "	    ,L.[Valor]				" +
+                           "	    ,L.[Juro]				" +
+                           "	    ,L.[Status]				" +
+                           "	    ,L.[DataCadastro] 		" +
+                           "	  FROM [dbo].[Loan] AS L	" +
+                           "	  CROSS JOIN Client AS C	" +
+                           "  WHERE Status = @Status	    ";
+
+                var loanQueries = await db.QueryAsync<LoanQuery>(query, new { Status = status });
+
+                foreach (var item in loanQueries)
+                {
+                    query = "SELECT COUNT(Id) FROM Parcela WHERE IdLoan =@IdLoan";
+                    item.TotalParcelas = await db.QueryFirstOrDefaultAsync<int>(query, new { IdLoan = item.Id });
+
+                    query = "SELECT COUNT(Id) FROM Parcela WHERE Status = 2 AND IdLoan = @IdLoan";
+                    item.TotalParcelasPagas = await db.QueryFirstOrDefaultAsync<int>(query, new { IdLoan = item.Id });
+                }
+
+                return loanQueries;
             }
         }
     }
