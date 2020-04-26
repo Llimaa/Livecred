@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Livecred.Configurations;
 using Livecred.Domain.Commands.Handlers;
 using Livecred.Domain.Commands.Inputs.Client;
 using Livecred.Domain.Repositories;
@@ -25,6 +26,10 @@ namespace Livecred.Controllers
         public async Task<ActionResult> Index()
         {
             var client = await _repositoryClient.GetAll();
+
+            if (HttpExtensionsValidate.IsAjaxRequest(Request))
+                return PartialView("Index", client);
+
             return View(client);
         }
 
