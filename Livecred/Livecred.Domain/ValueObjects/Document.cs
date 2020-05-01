@@ -5,6 +5,7 @@ namespace Livecred.Domain.ValueObjects
 {
     public class Document : Notifiable
     {
+        //rera pra validar cpf ta com error
         public Document(string cpf)
         {
             Number = cpf;
@@ -16,6 +17,9 @@ namespace Livecred.Domain.ValueObjects
 
         private bool ValidarCPF(string cpf)
         {
+            if (cpf.Length == 0)
+                return false;
+
             var multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             var multiplicador2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             cpf = cpf.Trim();

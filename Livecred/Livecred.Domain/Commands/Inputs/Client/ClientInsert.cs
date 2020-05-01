@@ -6,10 +6,6 @@ namespace Livecred.Domain.Commands.Inputs.Client
 {
     public class ClientInsert : Notifiable, Icommand
     {
-        public ClientInsert()
-        {
-
-        }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string NuberDocument { get; set; }

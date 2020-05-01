@@ -12,5 +12,6 @@ namespace Livecred.Domain.Repositories
         Task Delete(Guid guid);
         Task<Client> GetById(Guid guid);
         Task<IEnumerable<Client>> GetAll();
+        Task<bool> ValidDocument(string document);
     }
 }

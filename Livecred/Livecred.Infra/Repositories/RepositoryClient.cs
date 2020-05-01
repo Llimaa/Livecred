@@ -82,7 +82,7 @@ namespace Livecred.Infra.Repositories
         public async Task<IEnumerable<Client>> GetAll()
         {
             using (var db = await _dB.GetConAsync())
-            {                                         
+            {
                 var query = "SELECT [Id], [Telephone], [Address], [Name], [CPF] FROM [dbo].[Client];";
                 return (await db.QueryAsync<Client, string, string, Client>(query, map: (client, name, document) =>
                 {
@@ -112,6 +112,15 @@ namespace Livecred.Infra.Repositories
                 _client.FirstOrDefault().AddRageLoan(loans.ToList());
 
                 return _client.FirstOrDefault();
+            }
+        }
+
+        public async Task<bool> ValidDocument(string document)
+        {
+            using (var db = await _dB.GetConAsync())
+            {
+                var query = "SELECT COUNT(Id) FROM Client WHERE CPF=@CPF";
+                return await db.QueryFirstAsync<bool>(query, new { CPF = document });
             }
         }
     }
