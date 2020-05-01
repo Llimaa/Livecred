@@ -25,10 +25,9 @@ namespace Livecred.Controllers
         }
 
         // GET: Loan
-        public async Task<ActionResult> Index(Guid IdCLient)
+        public async Task<ActionResult> Index()
         {
-            IdClient = IdCLient;
-            var loan = await _repositoryLoan.GetAllbyIdClient(IdCLient);
+            var loan = await _repositoryLoan.GetAll();
 
             if (HttpExtensionsValidate.IsAjaxRequest(Request))
                 return PartialView("Index", loan);

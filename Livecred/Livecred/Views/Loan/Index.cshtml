@@ -4,58 +4,96 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Emprestimos</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><p onclick="voltar()">Dashboard</p></li>
+                    <li style="color:blue" class="breadcrumb-item active">Emprestimos</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Valor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Juro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataCadastro)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataUpdate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Valor)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Juro)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataCadastro)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataUpdate)
-                </td>
-                <td>
-                    @Html.ActionLink("Parcelas", "Index", "Parcela", new { IdLoan = item.Id }) |
-                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<section class="content-">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body table-responsive p-0" style="height: 550px;">
+                        <table class="table table-head-fixed text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Valor)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Juro)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Status)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.DataCadastro)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.DataUpdate)
+                                    </th>
+                                    <th>Funções</th>
+                                    <th>
+                                        <a class="btn btn-outline-primary" onclick="abrirModalAdd()">Novo cliente</a>
+                                    <th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @String.Format("{0:c}", item.Valor)
+                                        </td>
+                                        <td>
+                                            @String.Format("{0:c}", item.Juro)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Status)
+                                        </td>
+                                        <td>
+                                            @Convert.ToDateTime(item.DataCadastro).ToString("dd/MM/yyyy")
+                                        </td>
+                                        <td>
+                                            @Convert.ToDateTime(item.DataUpdate).ToString("dd/MM/yyyy")
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Parcelas", "Index", "Parcela", new { IdLoan = item.Id }, new { @class = "btn btn-primary" }) |
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                                            @Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" }) |
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function voltar() {
+        $.ajax({
+            type: "GET",
+            url: "/Home/Index",
+            data: {},
+            success: function (dados) {
+                $("#conteudo").html(dados);
+            }
+        });
+    }</script>
