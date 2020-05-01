@@ -6,6 +6,7 @@ using Livecred.Configurations;
 using Livecred.Domain.Commands.Handlers;
 using Livecred.Domain.Commands.Inputs.Client;
 using Livecred.Domain.Repositories;
+using Livecred.Domain.ValueObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,7 +43,8 @@ namespace Livecred.Controllers
         // GET: Client/Create
         public ActionResult Create()
         {
-            return View();
+            ViewBag.success = false;
+            return PartialView();
         }
 
         // POST: Client/Create
@@ -50,18 +52,14 @@ namespace Livecred.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ClientInsert client)
         {
-            try
-            {
-                client.Validate();
-                if (client.Valid)
-                    await _clientHandler.Handler(client);
+            client.Validate();
+            client.Telephone = String.Join("", System.Text.RegularExpressions.Regex.Split(client.Telephone, @"[^\d]"));
+            client.NuberDocument = String.Join("", System.Text.RegularExpressions.Regex.Split(client.NuberDocument, @"[^\d]"));
+            if (client.Valid)
+                await _clientHandler.Handler(client);
+            ViewBag.success = true;
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception e)
-            {
-                return View();
-            }
+            return PartialView();
         }
 
         // GET: Client/Edit/5
@@ -107,6 +105,27 @@ namespace Livecred.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        [HttpGet]
+        public async Task<string> validarDocument(string document)
+        {
+            document = String.Join("", System.Text.RegularExpressions.Regex.Split(document, @"[^\d]"));
+            Document _document = new Document(document);
+            if (_document.Valid && document.Length == 11)
+            {
+                if (await _repositoryClient.ValidDocument(_document.Number))
+                {
+
+                    return "jà existe cliente com esse documento";
+                }
+
+                return "";
+            }
+            else
+            {
+                return "Documento inválido!";
             }
         }
     }

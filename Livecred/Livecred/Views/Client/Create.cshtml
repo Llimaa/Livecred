@@ -4,50 +4,87 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>ClientInsert</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+<form asp-action="Create" asp-controller="Client"
+      data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-mode="replace"
+      data-ajax-update="#form-add-atividade">
+    <div class="card-body">
+        <div class="form-group">
+            <label for="Name">Nome</label>
+            <input type="text" class="form-control" id="Name" placeholder="Primerio Nome" asp-for="FirstName">
+            @*@Html.ValidationMessageFor(x => x.FirstName, "", new { @class = "text-danger" })*@
+        </div>
+        <div class="form-group">
+            <label for="Name">Nome</label>
+            <input type="text" class="form-control" id="Name" placeholder="Ultimo Nome" asp-for="LastName">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="document">Documento</label>
+                <input type="text" class="form-control" id="Document" placeholder="Documento" asp-for="NuberDocument" onblur="validarDocumento()">
+                <p style="margin-left:5px" id="error" class="text-danger"></p>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
+            <div class="form-group col-md-6">
+                <label for="Telephone">Telefone</label>
+                <input type="text" class="form-control" id="Telefone" asp-for="Telephone" placeholder="Telefone">
+                @*@Html.ValidationMessageFor(x => x.Telephone, "", new { @class = "text-danger" })*@
             </div>
-            <div class="form-group">
-                <label asp-for="NuberDocument" class="control-label"></label>
-                <input asp-for="NuberDocument" class="form-control" />
-                <span asp-validation-for="NuberDocument" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telephone" class="control-label"></label>
-                <input asp-for="Telephone" class="form-control" />
-                <span asp-validation-for="Telephone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+        <div class="form-group">
+            <label for="Address">Endereco</label>
+            <input type="text" class="form-control" id="Endereco" placeholder="Cidade/bairro/rua/numero" asp-for="Address">
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="card-footer">
+        <button id="btnSubmit" disabled="disabled" type="submit" class="btn btn-primary align-content-end">Salvar</button>
+    </div>
+</form>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+<script>
+    $(document).ready(function () {
+        $("#Telefone").mask("(99) 99999-9999");
+        $("#Document").mask("999.999.999-99")
+    });
+
+    function fecharModal() {
+        $('.modal').modal('hide');
+        $(".modal-backdrop").remove();
+        //  $('.close').trigger('click');
+    }
+
+    function validarDocumento() {
+        $.ajax({
+            type: "GET",
+            url: "/Client/validarDocument",
+            data: { document: document.getElementById('Document').value },
+            success: function (result) {
+                if (result.length > 1) {
+                    document.getElementById('error').innerHTML = result;
+                    document.getElementById('btnSubmit').disabled = true;
+                } else {
+                    document.getElementById('error').innerHTML = '';
+                    document.getElementById('btnSubmit').disabled = false;
+                }
+            }
+        });
+    }
+
+</script>
+@if ((bool)ViewBag.success)
+{
+    <script>
+        $().ready(function () {
+            $.get('/Client/Index').done(function (data) {
+                $('#conteudo').html(data);
+                fecharModal();
+            });
+        });
+
+    </script>
 }
