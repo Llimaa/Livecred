@@ -35,8 +35,4 @@
     <ProjectReference Include="..\Livecred.Infra\Livecred.Infra.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>

@@ -53,16 +53,9 @@ namespace Livecred.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(ParcelaInput parcelaInput)
         {
-            try
-            {
-                parcelaInput.IdLoan = _idLoan;
-                await _parcelaHandler.Handler(parcelaInput);
-                return RedirectToAction(nameof(Index), new { IdLoan = _idLoan });
-            }
-            catch (Exception e)
-            {
-                return View();
-            }
+            parcelaInput.IdLoan = _idLoan;
+            await _parcelaHandler.Handler(parcelaInput);
+            return RedirectToAction(nameof(Index), new { IdLoan = _idLoan });
         }
 
         // GET: Parcela/Edit/5
