@@ -15,7 +15,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><p  onclick="voltar()">Dashboard</p></li>
+                    <li class="breadcrumb-item"><p onclick="voltar()">Dashboard</p></li>
                     <li style="color:blue" class="breadcrumb-item active">Clientes</li>
                 </ol>
             </div>
@@ -66,9 +66,9 @@
                                             @Html.DisplayFor(modelItem => item.Address)
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Meus Emprestimos", "Index", "Loan", new { IdCLient = item.Id })
-                                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                            @Html.ActionLink("Meus Emprestimos", "Index", "Loan", new { IdCLient = item.Id }, new { @class = "btn btn-primary" })
+                                            <a style="color:white" class="btn btn-primary" onclick="abrirModalUpdate('@item.Id')">Atualizar dados</a>
+                                            @Html.ActionLink("Delete", "Delete", new { IdCLient = item.Id }, new { @class = "btn btn-primary" })
                                         </td>
                                     </tr>
                                 }
@@ -86,7 +86,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 style="  margin: 0; line-height: 1.42857143;" class="modal-title">Cadastro de cliente</h4>
+                <h4 id="title" class="modal-title"></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -111,10 +111,20 @@
 
 
     function abrirModalAdd() {
+        document.getElementById('title').innerHTML = 'Cadastrar novo cliente';
         $.get('/Client/Create').done(function (data) {
             $('#form-add-atividade').html(data);
             $('#modal-add-atividade').modal('show');
         });
     }
+
+    function abrirModalUpdate(id) {
+        document.getElementById('title').innerHTML = 'Atualizar dados do cliente';
+        $.get('/Client/Edit?id=' + id).done(function (data) {
+            $('#form-add-atividade').html(data);
+            $('#modal-add-atividade').modal('show');
+        });
+    }
+
 
 </script>

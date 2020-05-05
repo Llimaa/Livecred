@@ -29,7 +29,6 @@ namespace Livecred.Controllers
             ViewBag.valorTotalDeEmprestimos = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", await _repositoryLoan.GetMoneyTotal());
             ViewBag.emprestimosDoUtimoMes = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", await _repositoryLoan.GetTotalByThirtyToday(DateTime.Now.AddMonths(-1), DateTime.Now));
             ViewBag.emprestimosUltimos15Dias = string.Format(CultureInfo.GetCultureInfo("pt-BR"), "{0:C}", await _repositoryLoan.GetTotalByThirtyToday(DateTime.Now.AddDays(-15), DateTime.Now));
-            ViewBag.idLoan = Guid.NewGuid();
             //var emprestimosAberto = await _repositoryLoan.GetAllOrderByStatus(EStatusEmprestimo.Aberto);
 
             if (HttpExtensionsValidate.IsAjaxRequest(Request))

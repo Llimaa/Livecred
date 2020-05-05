@@ -4,45 +4,59 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
 
-<h4>LoanInsert</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Valor" class="control-label"></label>
-                <input asp-for="Valor" class="form-control" />
-                <span asp-validation-for="Valor" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Juro" class="control-label"></label>
-                <input asp-for="Juro" class="form-control" />
-                <span asp-validation-for="Juro" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Invalid" /> @Html.DisplayNameFor(model => model.Invalid)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Valid" /> @Html.DisplayNameFor(model => model.Valid)
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<form asp-action="Create" asp-controller="Loan"
+      data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-mode="replace"
+      data-ajax-update="#form-add-emprestimo">
+    <div class="card-body">
+        <div class="form-group">
+            <label asp-for="Valor" class="control-label"></label>
+            <input asp-for="Valor" required class="form-control" id="Valor" placeholder="Valor" />
+            <span asp-validation-for="Valor" class="text-danger"></span>
+            @Html.ValidationMessageFor(x => x.Valor, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Juro" class="control-label"></label>
+            <input asp-for="Juro" class="form-control" id="Juro" placeholder="Juro" /> <!--data-thousands="." data-decimal="," data-prefix="R$ " -->
+            <span asp-validation-for="Juro" class="text-danger"></span>
+            @Html.ValidationMessageFor(x => x.Juro, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            <label class="control-label">Cliente</label>
+            @Html.DropDownListFor(model => model.IdClient, new SelectList(ViewBag.clientes, "Id", "Name.FirstName"), "Selecione um Cliente", new { @class = "form-control" })
+        </div>
+
+        <div class="card-footer">
+            <button id="btnSubmit" type="submit" class="btn btn-primary align-content-end">Salvar</button>
+        </div>
     </div>
-</div>
+</form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<script>
+    $("#Juro").maskMoney({ symbol: 'R$ ', allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
+    $("#Valor").maskMoney({ prefix: 'R$ ', allowNegative: true, thousands: '.', decimal: ',', affixesStay: false });
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    function fecharModal() {
+        $('.modal').modal('hide');
+        $(".modal-backdrop").remove();
+    }
+
+</script>
+@if ((bool)ViewBag.success)
+{
+    <script>
+        $().ready(function () {
+            $.get('/Loan/Index').done(function (data) {
+                $('#conteudo').html(data);
+                fecharModal();
+            });
+        });
+
+    </script>
 }
+

@@ -7,6 +7,20 @@ namespace Livecred.Domain.Commands.Inputs.Client
 {
     public class ClientUpdate : Notifiable, Icommand
     {
+        public ClientUpdate(Guid id, string firstName, string lastName, string nuberDocument, string telephone, string address)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            NuberDocument = nuberDocument;
+            Telephone = telephone;
+            Address = address;
+        }
+
+        public ClientUpdate()
+        {
+
+        }
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

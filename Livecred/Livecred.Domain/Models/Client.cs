@@ -8,12 +8,13 @@ namespace Livecred.Domain.Models
     public class Client : EntityBase
     {
         public Client() { }
-        public Client(Name name, Document cPF, string telephone, string address)
+        public Client(Name name, Document cPF, string telephone, string address, List<Loan> instancias)
         {
             Name = name;
             CPF = cPF;
             Telephone = telephone;
             Address = address;
+            Loans = instancias;
         }
 
         public Name Name { get; private set; }
@@ -22,6 +23,11 @@ namespace Livecred.Domain.Models
         public string Address { get; private set; }
 
         public List<Loan> Loans { get; private set; } //Emprestimos
+
+        public void SetInstancias(List<Loan> instancias)
+        {
+            Loans = instancias;
+        }
 
         public void Update(string firstName, string lastName, string document, string telephone, string address)
         {
@@ -46,12 +52,12 @@ namespace Livecred.Domain.Models
 
         public void AddLoan(Loan loan)
         {
-            this.Loans.Add(loan);
+            Loans.Add(loan);
         }
 
         public void AddRageLoan(List<Loan> loans)
         {
-            this.Loans.AddRange(loans);
+            Loans.AddRange(loans);
         }
 
         public void UpdateLoan(Loan loan)

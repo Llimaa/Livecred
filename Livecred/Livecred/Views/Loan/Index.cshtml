@@ -46,7 +46,7 @@
                                     </th>
                                     <th>Funções</th>
                                     <th>
-                                        <a class="btn btn-outline-primary" onclick="abrirModalAdd()">Novo cliente</a>
+                                        <a class="btn btn-outline-primary" onclick="abrirModal()">Novo</a>
                                     <th>
                                 </tr>
                             </thead>
@@ -86,6 +86,21 @@
     </div>
 </section>
 
+<div class="modal show" id="modal-add-emprestimo" role="dialog">
+    <div class=" modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> Cadastro Emprestimo</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="form-add-emprestimo">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function voltar() {
         $.ajax({
@@ -96,4 +111,14 @@
                 $("#conteudo").html(dados);
             }
         });
-    }</script>
+    }
+
+    function abrirModal() {
+        $.get('/Loan/Create').done(function (data) {
+            $('#form-add-emprestimo').html(data);
+            $('#modal-add-emprestimo').modal('show');
+        });
+    }
+
+
+</script>

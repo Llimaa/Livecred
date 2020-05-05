@@ -9,7 +9,7 @@ namespace Livecred.Domain.Commands.Inputs.Loan
     public class LoanUpdate : Notifiable, Icommand
     {
         public Guid Id { get; set; }
-        public decimal Valor { get; set; }
+        public double Valor { get; set; }
         public double Juro { get; set; }
         public EStatusEmprestimo Status { get; set; }
 

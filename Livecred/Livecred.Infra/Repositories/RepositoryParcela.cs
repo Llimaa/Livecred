@@ -199,7 +199,7 @@ namespace Livecred.Infra.Repositories
         {
             using (var db = await _dB.GetConAsync())
             {
-                var query = "SELECT SUM(Valor) FROM [dbo].[Parcela] WHERE [Status] = 1";
+                var query = "SELECT ISNULL(SUM(P.Valor),0) FROM [dbo].[Parcela] AS P WHERE P.[Status] = 1;";
                 return await db.QueryFirstOrDefaultAsync<decimal>(query, new { Status = status });
             }
         }

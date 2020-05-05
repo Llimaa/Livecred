@@ -7,7 +7,7 @@ namespace Livecred.Domain.Models
 {
     public class Loan : EntityBase
     {
-        public Loan(decimal valor, double juro, Guid idClient)
+        public Loan(double valor, double juro, Guid idClient)
         {
             Valor = valor;
             Juro = juro;
@@ -20,7 +20,7 @@ namespace Livecred.Domain.Models
 
         }
 
-        public decimal Valor { get; private set; }
+        public double Valor { get; private set; }
         public Guid IdClient { get; private set; }
         public double Juro { get; private set; }
         public EStatusEmprestimo Status { get; private set; }
@@ -28,7 +28,7 @@ namespace Livecred.Domain.Models
         public DateTime DataUpdate { get; private set; }
         public List<Parcela> Parcelas { get; set; }
 
-        public void Update(decimal valor, double juro, EStatusEmprestimo status)
+        public void Update(double valor, double juro, EStatusEmprestimo status)
         {
             Valor = valor;
             Juro = juro;

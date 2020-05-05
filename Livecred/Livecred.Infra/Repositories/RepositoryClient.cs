@@ -62,7 +62,7 @@ namespace Livecred.Infra.Repositories
                 await db.ExecuteAsync(query, new
                 {
                     Id = client.Id,
-                    Name = client.Name.FirstName + " " + client.Name.LastName,
+                    Name = client.Name.FirstName,
                     CPF = client.CPF.Number,
                     Telephone = client.Telephone,
                     Address = client.Address
@@ -97,7 +97,7 @@ namespace Livecred.Infra.Repositories
         {
             using (var db = await _dB.GetConAsync())
             {
-                var query = "SELECT [Id],[Name],[CPF],[Telephone],[Address] FROM [dbo].[Client] WHERE Id = @Id";
+                var query = "SELECT [Telephone],[Address],[Id],[Name],[CPF] FROM [dbo].[Client] WHERE Id = @Id";
                 var _client = await db.QueryAsync<Client, string, string, Client>(query, param: new { Id = id }, map: (client, name, document) =>
                 {
                     client.SetName(name);
@@ -109,7 +109,8 @@ namespace Livecred.Infra.Repositories
                     " FROM [dbo].[Loan] WHERE [IdClient] = @IdClient";
 
                 var loans = await db.QueryAsync<Loan>(query, new { IdClient = id });
-                _client.FirstOrDefault().AddRageLoan(loans.ToList());
+                _client.FirstOrDefault().SetInstancias(loans.ToList());
+                //_client.FirstOrDefault().AddRageLoan(new List<Loan>(loans.ToList()));
 
                 return _client.FirstOrDefault();
             }

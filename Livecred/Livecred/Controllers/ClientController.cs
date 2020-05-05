@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Livecred.Configurations;
 using Livecred.Domain.Commands.Handlers;
 using Livecred.Domain.Commands.Inputs.Client;
+using Livecred.Domain.Commands.output;
+using Livecred.Domain.Models;
 using Livecred.Domain.Repositories;
 using Livecred.Domain.ValueObjects;
 using Microsoft.AspNetCore.Http;
@@ -62,27 +64,29 @@ namespace Livecred.Controllers
             return PartialView();
         }
 
-        // GET: Client/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Client/Edit/
+        public async Task<ActionResult> Edit(Guid id)
         {
-            return View();
+            var client = await _repositoryClient.GetById(id);
+            ViewBag.success = false;
+
+            var _clientUpdate = new ClientUpdate(client.Id, client.Name.FirstName, client.Name.LastName, client.CPF.Number, client.Telephone, client.Address);
+            return PartialView(_clientUpdate);
         }
 
         // POST: Client/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(ClientUpdate command)
         {
-            try
-            {
-                // TODO: Add update logic here
+            command.Telephone = String.Join("", System.Text.RegularExpressions.Regex.Split(command.Telephone, @"[^\d]"));
+            command.NuberDocument = String.Join("", System.Text.RegularExpressions.Regex.Split(command.NuberDocument, @"[^\d]"));
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var _client = (GenericCommandResult)await _clientHandler.Handler(command);
+            if (_client.Success)
+                ViewBag.success = true;
+
+            return PartialView();
         }
 
         // GET: Client/Delete/5

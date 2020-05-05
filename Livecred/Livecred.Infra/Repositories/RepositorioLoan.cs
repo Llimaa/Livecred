@@ -190,7 +190,7 @@ namespace Livecred.Infra.Repositories
         {
             using (var db = await _dB.GetConAsync())
             {
-                var query = "SELECT SUM(Valor)+SUM(Juro) FROM [dbo].[Loan]";
+                var query = "SELECT ISNULL(SUM(Valor),0)+ISNULL(SUM(Juro),0) FROM [dbo].[Loan]";
 
                 return await db.QueryFirstOrDefaultAsync<decimal>(query);
             }
@@ -200,7 +200,7 @@ namespace Livecred.Infra.Repositories
         {
             using (var db = await _dB.GetConAsync())
             {
-                var query = "SELECT SUM(Valor) FROM [dbo].[Loan] where DataCadastro between @DataInicio and @DataFim;";
+                var query = "SELECT ISNULL(SUM(Valor),0) FROM [dbo].[Loan] where DataCadastro between @DataInicio and @DataFim;";
 
                 return await db.QueryFirstOrDefaultAsync<decimal>(query, new { DataInicio = dataInicio, DataFim = dataFim });
             }
@@ -210,15 +210,16 @@ namespace Livecred.Infra.Repositories
         {
             using (var db = await _dB.GetConAsync())
             {
-                var query = "	SELECT L.[Id]				" +
-                           "		,C.[Name] AS NameClient	" +
-                           "	    ,L.[Valor]				" +
-                           "	    ,L.[Juro]				" +
-                           "	    ,L.[Status]				" +
-                           "	    ,L.[DataCadastro] 		" +
-                           "	  FROM [dbo].[Loan] AS L	" +
-                           "	  CROSS JOIN Client AS C	" +
-                           "  WHERE Status = @Status	    ";
+                var query = "	SELECT L.[Id]				                 " +
+                            "		,C.[Name] AS NameClient					 " +
+                            "	    ,L.[Valor]								 " +
+                            "	    ,L.[Juro]								 " +
+                            "	    ,L.[Status]								 " +
+                            "	    ,L.[DataCadastro] 						 " +
+                            "	  FROM [dbo].[Loan] AS L					 " +
+                            "	  INNER JOIN Client AS C ON C.Id = L.IdClient" +
+                            "	    WHERE L.Status = @Status				 " +
+                            "	  ORDER BY DataCadastro DESC;                ";
 
                 var loanQueries = await db.QueryAsync<LoanQuery>(query, new { Status = status });
 
